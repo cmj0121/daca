@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"text/template"
+	"strings"
 )
 
 type Context struct {
@@ -16,6 +17,12 @@ type Context struct {
 }
 
 func (ctx *Context) Write(in []byte) {
+	/* reply the Accept as possible */
+	accept := strings.Split(ctx.request.Header.Get("Accept"), ",")
+	if len(accept) > 1 && accept[0] != "*/*" {
+		ctx.Header("Content-Type", accept[0])
+	}
+
 	/* Set HTML body */
 	ctx.writer.Write(in)
 }
@@ -23,8 +30,8 @@ func (ctx *Context) Write(in []byte) {
 func (ctx *Context) WriteJson(in interface{}) {
 	/* Set MIME as application/json */
 	ctx.Header("Content-Type", "application/json")
-	data, _ := json.Marshal(in)
 	/* Write the JSON payload */
+	data, _ := json.Marshal(in)
 	ctx.Write(data)
 }
 
