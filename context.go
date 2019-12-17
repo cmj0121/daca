@@ -19,7 +19,7 @@ type Context struct {
 func (ctx *Context) Write(in []byte) {
 	/* reply the Accept as possible */
 	accept := strings.Split(ctx.request.Header.Get("Accept"), ",")
-	if len(accept) > 1 && accept[0] != "*/*" {
+	if len(accept) > 0 && accept[0] != "*/*" {
 		ctx.Header("Content-Type", accept[0])
 	}
 
