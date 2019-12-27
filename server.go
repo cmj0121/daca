@@ -32,12 +32,12 @@ func (srv *Server) Run() {
 func (srv *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := &Context{
 		Server:  srv,
-		writer:  w,
-		request: r,
+		W:  w,
+		R: r,
 	}
 
-	method := strings.ToUpper(ctx.request.Method)
-	url := ctx.request.URL.Path
+	method := strings.ToUpper(ctx.R.Method)
+	url := ctx.R.URL.Path
 
 	for _, endpoint := range srv.endpoints[method] {
 		if endpoint.Match(url) {

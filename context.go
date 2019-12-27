@@ -11,13 +11,13 @@ import (
 type Context struct {
 	*Endpoint
 	*Server
-	writer  http.ResponseWriter
-	request *http.Request
+	W  http.ResponseWriter
+	R *http.Request
 }
 
 func (ctx *Context) Write(in []byte) {
 	/* Set HTML body */
-	ctx.writer.Write(in)
+	ctx.W.Write(in)
 }
 
 func (ctx *Context) WriteJson(in interface{}) {
@@ -46,11 +46,11 @@ func (ctx *Context) WriteTemplateFile(path string, in interface{}) {
 
 func (ctx *Context) Header(key, value string) {
 	/* Set HTML header */
-	ctx.writer.Header().Set(key, value)
+	ctx.W.Header().Set(key, value)
 }
 
 func (ctx *Context) Query(key string) (out string) {
-	vars := ctx.request.URL.Query()
+	vars := ctx.R.URL.Query()
 	out = vars.Get(key)
 	return
 }
