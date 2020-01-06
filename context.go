@@ -5,7 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
-	"text/template"
+	"html/template"
 )
 
 type Context struct {
